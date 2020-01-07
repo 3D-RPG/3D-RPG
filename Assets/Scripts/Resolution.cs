@@ -3,6 +3,8 @@ using System.IO;
 
 public class Resolution : MonoBehaviour
 {
+    private Debug_Manager debug;
+    
     private int Width;
     private int Height;
     
@@ -23,7 +25,17 @@ public class Resolution : MonoBehaviour
         Height = settings.Height;
 
         BackGround = Image.GetComponent<RectTransform>();
+        
+#if UNITY_EDITOR
+        GameObject gameobject = GameObject.Find("Init");
+        debug = gameobject.GetComponent<Debug_Manager>();
+
+        BackGround.sizeDelta = new Vector2(debug.Width, debug.Height);
+        Debug.Log("UNITY_EDITOR");
+#else
         BackGround.sizeDelta = new Vector2(Width, Height);
+        Debug.Log("UNITY_STANDALONE_WIN");
+#endif
     }
 
 
